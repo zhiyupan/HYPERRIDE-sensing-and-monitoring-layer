@@ -1,0 +1,23 @@
+{% extends "base/Device.template" %}
+{% block device %}
+"id": "urn:ngsi-ld:Damper:{{id_0_id_string_req}}",
+"type": "Damper",
+"subCategory":{
+"type": "Property",
+"value": "BuildingRelated-FlowDevice-FlowController"
+},
+{% if ReadableName_1_ReadableName_string_opt %}
+"readableName": {
+"type": "Property",
+"value": "{{ReadableName_1_ReadableName_string_opt}}"
+},
+{% endif %}
+{% if LoggingInterval_2_LoggingInterval_string_opt %}
+"loggingInterval": {"type": "Property",
+"value": "{{LoggingInterval_2_LoggingInterval_string_opt}}"
+},
+{% endif %}
+{% endblock %}
+
+{% block context %}
+{% endblock %}

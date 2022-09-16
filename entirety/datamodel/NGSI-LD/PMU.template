@@ -1,0 +1,35 @@
+{% extends "base/Device.template" %}
+{% block device %}
+"id": "urn:ngsi-ld:PMU:{{id_0_id_string_req}}",
+"type": "PMU",
+"subCategory":{
+"type": "Property",
+"value": "GridRelated-Meter"
+},
+{% if SampleRate_1_SampleRate_string_opt %}
+"sampleRate": {
+"type": "Property",
+"value": "{{SampleRate_1_SampleRate_string_opt}}"
+},
+{% endif %}
+{% if Channel_2_Channel_string_opt %}
+"hasChannel": {
+"type": "Property",
+"value": "{{Channel_2_Channel_string_opt}}"
+},
+{% endif %}
+{% if ReadableName_3_ReadableName_string_opt %}
+"readableName": {
+"type": "Property",
+"value": "{{ReadableName_3_ReadableName_string_opt}}"
+},
+{% endif %}
+{% if LoggingInterval_4_LoggingInterval_string_opt %}
+"loggingInterval": {"type": "Property",
+"value": "{{LoggingInterval_4_LoggingInterval_string_opt}}"
+},
+{% endif %}
+{% endblock %}
+
+{% block context %}
+{% endblock %}

@@ -1,0 +1,88 @@
+{
+  "createdAt": "{{createdAt_2_CreateAt_datetime_req}}",
+  "modifiedAt":"{{modifiedAt_3_ModifiedAt_datetime_req}}",
+  "category": {
+  "type": "Property",
+  "value": "Device"
+  },
+  "ipAddress": {
+    "type": "Property",
+    "value": "{{ipAddress_4_IP_string_req}}"
+  },
+  "hasState": {
+    "type": "Relationship",
+    "object": ["{{hasState_5_State_select_req}}"]
+  },
+  "controlsProperty": {
+    "type": "Relationship",
+    "object": ["{{controlsProperty_6_Property_select_req}}"]
+  },
+  "isMeasuredIn": {
+    "type": "Relationship",
+    "object": ["{{isMeasuredIn_7_Measurement_select_req}}"]
+  },
+  "hasCommand": {
+    "type": "Relationship",
+    "object": ["{{hasCommand_8_Command_select_req}}"]
+  },
+  "hasFunction": {
+    "type": "Relationship",
+    "object": ["{{hasFunction_9_Function_select_req}}"]
+  },
+{% if controlAsset_10_ControlAsset_string_opt %}
+  "controlAsset": {
+    "type": "Property",
+    "value": "{{controlAsset_10_ControlAsset_string_opt}}"
+  },
+{% endif %}
+{% if entityVersion_11_Version_string_opt %}
+  "entityVersion": {
+    "type": "Property",
+    "value": "{{entityVersion_11_Version_string_opt}}"
+  },
+{% endif %}
+{% if serialNumber_12_SerialNumber_string_opt %}
+  "serialNumber": {
+  "type": "Property",
+  "value": "{{serialNumber_12_SerialNumber_string_opt}}"
+  },
+{% endif %}
+{% if supplierName_13_SupplierName_string_opt %}
+  "supplierName": {
+  "type": "Property",
+  "value": "{{supplierName_13_SupplierName_string_opt}}"
+  },
+{% endif %}
+{% if description_14_Description_string_opt %}
+  "description": {
+  "type": "Property",
+  "value": "{{description_14_Description_string_opt}}"
+  },
+{% endif %}
+{% if conssistOf_15_ConssistOf_string_opt %}
+  "conssistOf": {
+  "type": "Relationship",
+  "object": ["urn:ngsi-ld:DeviceModel:{{conssistOf_15_ConssistOf_string_opt}}"]
+  },
+{% endif %}
+{% if source_16_Source_string_opt %}
+  "source": {
+  "type": "Property",
+  "value": "{{source_16_Source_string_opt}}"
+  },
+{% endif %}
+{% if dataProvider_17_Provider_string_opt %}
+  "dataProvider": {
+  "type": "Property",
+  "value": "{{dataProvider_17_Provider_string_opt}}"
+  },
+{% endif %}
+
+  {% block device %}
+  {% endblock%}
+  "@context": [
+    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    {% block context %}
+    {% endblock%}
+  ]
+}

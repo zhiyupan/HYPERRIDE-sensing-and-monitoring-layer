@@ -1,0 +1,151 @@
+#!/bin/bash
+#
+#  Command Line Interface to start all services associated with the Getting-Started Tutorial
+#
+#  For this tutorial the commands are merely a convenience script to run docker-compose
+#
+
+set -e
+
+if (( $# != 1 )); then
+    echo "Illegal number of parameters"
+    echo "usage: services [create|start|stop]"
+    exit 1
+fi
+
+loadData () {
+	docker run --rm -v $(pwd)/import-data:/import-data \
+		--network n5geh_default \
+		--entrypoint /bin/ash curlimages/curl import-data
+	docker run --rm -v $(pwd)/provision-devices:/provision-devices \
+		--network n5geh_default \
+		--entrypoint /bin/ash curlimages/curl provision-devices
+	echo ""
+}
+
+stoppingContainers () {
+	echo "Stopping containers"
+	docker-compose -p n5geh down 
+	# docker-compose -p n5geh down -v --remove-orphans
+}
+
+displayServices () {
+	echo ""
+	docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" --filter name=n5geh-*
+	echo ""
+}
+
+addDatabaseIndex () {
+	printf "Adding appropriate \033[1mMongoDB\033[0m indexes for \033[1;34mOrion\033[0m  ..."
+	docker exec  db-mongo mongo --eval '
+	conn = new Mongo();db.createCollection("orion");
+	db = conn.getDB("orion");
+	db.createCollection("entities");
+	db.entities.createIndex({"_id.servicePath": 1, "_id.id": 1, "_id.type": 1}, {unique: true});
+	db.entities.createIndex({"_id.type": 1}); 
+	db.entities.createIndex({"_id.id": 1});' > /dev/null
+
+	docker exec  db-mongo mongo --eval '
+	conn = new Mongo();db.createCollection("orion-openiot");
+	db = conn.getDB("orion-openiot");
+	db.createCollection("entities");
+	db.entities.createIndex({"_id.servicePath": 1, "_id.id": 1, "_id.type": 1}, {unique: true});
+	db.entities.createIndex({"_id.type": 1}); 
+	db.entities.createIndex({"_id.id": 1});' > /dev/null
+	echo -e " \033[1;32mdone\033[0m"
+
+	printf "Adding appropriate \033[1mMongoDB\033[0m indexes for \033[1;36mIoT-Agent\033[0m  ..."
+	docker exec  db-mongo mongo --eval '
+	conn = new Mongo();
+	db = conn.getDB("iotagentul");
+	db.createCollection("devices");
+	db.devices.createIndex({"_id.service": 1, "_id.id": 1, "_id.type": 1});
+	db.devices.createIndex({"_id.type": 1}); 
+	db.devices.createIndex({"_id.id": 1});
+	db.createCollection("groups");
+	db.groups.createIndex({"_id.resource": 1, "_id.apikey": 1, "_id.service": 1});
+	db.groups.createIndex({"_id.type": 1});' > /dev/null
+	echo -e " \033[1;32mdone\033[0m"
+}
+
+initKeycloak () {
+#	printf "Adding realm to \033[1mKeycloack\033[0m  for \033[1;34mDevice Wizard\033[0m  ..."
+    docker run --network n5geh_default -v $(pwd)/keycloak:/data --rm python:3.7.6 /bin/bash -c 'pip install python-keycloak psycopg2 && python /data/keycloak_init.py' && \
+    docker-compose -p n5geh restart keycloak
+}
+
+waitForOrion () {
+	echo -e "\n⏳ Waiting for \033[1;34mOrion\033[0m to be available\n"
+	while [ `docker run --network n5geh_default --rm curlimages/curl -s -o /dev/null -w %{http_code} 'http://orion:1026/version'` -eq 000 ]
+	do 
+	  echo -e "Context Broker HTTP state: " `curl -s -o /dev/null -w %{http_code} 'http://localhost:1026/version'` " (waiting for 200)"
+	  sleep 1
+	done
+}
+
+waitForIDM () {
+	echo -e "\n⏳ Waiting for \033[1;34mKeycloak\033[0m to be available\n"
+	while [ `docker run --network n5geh_default --rm curlimages/curl -s -o /dev/null -w %{http_code} 'http://keycloak:8080/auth/realms/master'` -eq 000 ]
+	do
+	  echo -e "Keycloak HTTP state: " `curl -s -o /dev/null -w %{http_code} 'http://localhost:8080/auth/realms/master'` " (waiting for 200)"
+	  sleep 1
+	done
+}
+
+waitForIoTAgent () {
+	echo -e "\n⏳ Waiting for \033[1;36mIoT-Agent\033[0m to be available\n"
+	while [ `docker run --network n5geh_default --rm curlimages/curl -s -o /dev/null -w %{http_code} 'http://iot-agent:4041/version'` -eq 000 ]
+	do 
+	  echo -e "IoT Agent HTTP state: " `curl -s -o /dev/null -w %{http_code} 'http://localhost:4041/version'` " (waiting for 200)"
+	  sleep 1
+	done
+}
+
+
+
+command="$1"
+case "${command}" in
+	"help")
+        echo "usage: services [create|start|stop|secrets_update]"
+        ;;
+	 "start")
+		stoppingContainers
+		echo -e "Starting seven containers \033[1;34mOrion\033[0m, \033[1;34mQuantumLeap\033[0m, \033[1;36mIoT-Agent\033[0m, \033[1mTutorial\033[0m, a \033[1mGrafana\033[0m metrics dashboard and \033[1mCrateDB\033[0m and \033[1mMongoDB\033[0m databases."
+		echo -e "- \033[1;34mOrion LD\033[0m is the context broker"
+		echo -e "- \033[1;34mQuantumLeap\033[0m will write to CrateDB"
+		echo -e "- \033[1mGrafana\033[0m will read from CrateDB"
+		echo -e "- \033[1;36mIoT-Agent\033[0m is configured for the UltraLight Protocol"
+		echo -e "- \033[1mDevice Wizard\033[0m service for provisioning"
+		echo -e "- \033[1mMQTT Broker\033[0m is the mqtt broker instance"
+		echo -e "- \033[1mKeycloack\033[0m is the local Identity Management service (IDM)"
+		echo ""
+		docker-compose -p n5geh up -d --remove-orphans
+		addDatabaseIndex
+		waitForOrion
+		waitForIDM
+		initKeycloak
+#		loadData
+		displayServices
+		echo -e "Keycloak is available via \033[1;34mhttp://localhost:8080/\033[0m  User: \033[1madmin\033[0m Password: \033[1mPa55w0rd\033[0m"
+		echo -e "Grafana is available via \033[1;34mhttp://localhost:3003/login\033[0m  User: \033[1madmin\033[0m Password: \033[1madmin\033[0m"
+		echo -e "Device Wizard is available via \033[1;34mhttp://localhost:8090/\033[0m User: \033[1mn5geh\033[0m Password: \033[1mn5geh\033[0m"
+		
+		./lh_change.sh
+		;;
+	"stop")
+		stoppingContainers
+		;;
+	"create")
+		echo "Pulling Docker images"
+		docker-compose -p n5geh pull
+		;;
+	"secrets_update")
+		echo "Pulling Docker images"
+		docker-compose -p n5geh restart iot-agent mqtt-broker entirety
+		;;
+	*)
+		echo "Command not Found."
+		echo "usage: services [create|start|stop]"
+		exit 127;
+		;;
+esac

@@ -1,0 +1,53 @@
+{
+"id": "urn:ngsi-ld:Building:{{id_0_id_string_req}}",
+"type": "Building",
+"buildingType":{
+"type": "Relationship",
+"object": ["urn:ngsi-ld:BuildingType:{{BuildingType_2_BuildingType_string_req}}"]
+},
+"createdAt": "{{CreateAt_3_CreateAt_datetime_req}}",
+"modifiedAt":"{{ModifiedAt_4_ModifiedAt_datetime_req}}",
+"owner": {
+"type": "Relationship",
+"object": ["urn:ngsi-ld:Owner:{{BuildingOwner_5_BuildingOwner_string_req}}"]
+},
+"occupier":{
+"type" : "Relationship",
+"object" : ["urn:ngsi-ld:Person:{{OccupierPerson_6_OccupierPerson_string_req}}"]
+},
+"source": {
+    "type": "Property",
+    "value": "https://source.example.com"
+  },
+"dataProvider": {
+"type": "Relationship",
+"object": ["urn:ngsi-ld:Provider:{{Provider_7_Provider_string_opt}}"]
+},
+{% if FloorsAboveGround_8_FloorsAboveGround_string_opt %}
+"floorsAboveGround": {
+"type": "Property",
+"value": "{{FloorsAboveGround_8_FloorsAboveGround_string_opt}}"
+},
+{% endif %}
+{% if FloorsBellowGround_9_FloorsBellowGround_string_opt %}
+"floorsBellowGround": {
+"type": "Property",
+"value": "{{FloorsBellowGround_9_FloorsBellowGround_string_opt }}"
+},
+{% endif %}
+"entityVersion": {
+"type": "Property",
+"value": "{{ EntityVersion_10_EntityVersion_string_opt }}"
+},
+{% if SupplierName_11_SupplierName_string_opt %}
+"supplierName": {
+"type": "Property",
+"value": "{{SupplierName_11_SupplierName_string_opt}}"
+},
+{% endif %}
+"@context": [
+"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+,"https://raw.githubusercontent.com/Maliheh-Haghgoo/N5GEH/master/Building.jsonld"
+]
+}
+

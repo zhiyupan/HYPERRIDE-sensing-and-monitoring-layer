@@ -1,0 +1,22 @@
+{
+  "device_idm": {
+    "server": "http://keycloak:8080/auth/",
+    "username": "device_wizard",
+    "password": "password",
+    "realm_name": "n5geh_devices"
+  },
+  "fiware": {
+    "orion": "http://orion:1026",
+    "quantumleap": "http://quantumleap:8668",
+    "iotagent": "http://iot-agent:4041"
+  },
+  "datamodel": {
+    "ngsi2": "/data/datamodel/NGSI2",
+    "ngsi-ld": "/data/datamodel/NGSI-LD",
+    "classes": "/data/datamodel/classes"
+  },
+  "idm": {
+    "account_url": "http://localhost:8080/auth/realms/n5geh/account",
+    "logout_link": "http://localhost:8080/auth/realms/n5geh/protocol/openid-connect/logout?referrer=flask-app&redirect_uri=http%3A%2F%2Flocalhost%3A8090%2Fdashboard"
+  }
+}

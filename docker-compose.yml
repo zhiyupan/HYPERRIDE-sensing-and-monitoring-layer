@@ -1,0 +1,188 @@
+version: "3.5"
+services:
+  # Orion is the context broker
+  orion:
+    image: fiware/orion-ld:${ORION_VERSION}
+    hostname: orion
+    container_name: fiware-orion
+    depends_on:
+      - mongo-db
+    networks:
+      - default
+    expose:
+      - "${ORION_PORT}"
+    ports:
+      - "${ORION_PORT}:${ORION_PORT}" # localhost:1026
+    command: -dbhost mongo-db -logLevel DEBUG
+    healthcheck:
+      test: curl --fail -s http://orion:${ORION_PORT}/version || exit 1
+
+  # Quantum Leap is persisting Short Term History to Crate-DB
+  quantumleap:
+    image: smartsdk/quantumleap:${QUANTUMLEAP_VERSION}
+    hostname: quantumleap
+    container_name: fiware-quantumleap
+    ports:
+      - "${QUANTUMLEAP_PORT}:${QUANTUMLEAP_PORT}"
+    depends_on:
+      - crate-db
+    environment:
+      - CRATE_HOST=crate-db
+    healthcheck:
+      test: curl --fail -s http://quantumleap:${QUANTUMLEAP_PORT}/v2/version || exit 1
+  
+  # IoT-Agent is configured for the UltraLight Protocol
+  iot-agent:
+    image: fiware/iotagent-ul:${ULTRALIGHT_VERSION}
+    hostname: iot-agent
+    container_name: fiware-iot-agent
+    depends_on:
+      - mongo-db
+    networks:
+      - default
+    ports:
+      - "${IOTA_NORTH_PORT}:${IOTA_NORTH_PORT}" # localhost:4041
+      - "${IOTA_SOUTH_PORT}:${IOTA_SOUTH_PORT}" # localhost:7896
+    environment:
+      - IOTA_CB_HOST=orion # name of the context broker to update context
+      - IOTA_CB_PORT=${ORION_PORT} # port the context broker listens on to update context
+      - IOTA_NORTH_PORT=${IOTA_NORTH_PORT}
+      - IOTA_REGISTRY_TYPE=mongodb #Whether to hold IoT device info in memory or in a database
+      - IOTA_LOG_LEVEL=DEBUG # The log level of the IoT Agent
+      - IOTA_TIMESTAMP=true # Supply timestamp information with each measurement
+      - IOTA_CB_NGSI_VERSION=v2 # use NGSIv2 when sending updates for active attributes
+      - IOTA_AUTOCAST=true # Ensure Ultralight number values are read as numbers not strings
+      - IOTA_MONGO_HOST=mongo-db # The host name of MongoDB
+      - IOTA_MONGO_PORT=${MONGO_DB_PORT} # The port mongoDB is listening on
+      - IOTA_MONGO_DB=iotagentul # The name of the database used in mongoDB
+#      - IOTA_HTTP_PORT=${IOTA_SOUTH_PORT} # The port used for device traffic over HTTP
+      - IOTA_PROVIDER_URL=http://iot-agent:${IOTA_NORTH_PORT}
+      - IOTA_MQTT_HOST=mqtt-broker
+      - IOTA_MQTT_PORT=1883
+      - IOTA_MQTT_USERNAME=iotagent
+      - IOTA_MQTT_PASSWORD=password
+      - IOTA_DEFAULT_RESOURCE= # Default is blank. I'm using MQTT so I don't need a resource
+    healthcheck:
+      test: curl --fail -s http://iot-agent:${IOTA_NORTH_PORT}/iot/about || exit 1
+
+
+  mqtt-broker:
+    image: karltga/mosquitto-go-auth-oauth2:v1.2
+    hostname: mqtt-broker
+    networks:
+      - default
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/:/etc/mosquitto
+
+
+  # Databases
+  mongo-db:
+    image: mongo:${MONGO_DB_VERSION}
+    hostname: mongo-db
+    container_name: db-mongo
+    expose:
+      - "${MONGO_DB_PORT}"
+    ports:
+      - "${MONGO_DB_PORT}:${MONGO_DB_PORT}" # localhost:27017
+    networks:
+      - default
+    command: --bind_ip_all --smallfiles
+    volumes:
+      - mongo-db:/data
+
+  crate-db:
+    image: crate:${CRATE_VERSION:-3.1.2}
+    hostname: crate-db
+    container_name: db-crate
+    ports:
+      # Admin UI
+      - "4200:4200"
+      # Transport protocol
+      - "4300:4300"
+    command: crate -Clicense.enterprise=false -Cauth.host_based.enabled=false  -Ccluster.name=democluster -Chttp.cors.enabled=true -Chttp.cors.allow-origin="*"
+    volumes:
+      - crate-db:/data
+
+  # Other services
+  grafana:
+    image: grafana/grafana:6.1.6
+    container_name: grafana
+    depends_on:
+      - crate-db
+    ports:
+      - "3000:${GRAFANA_PORT}"
+    environment:
+      - GF_INSTALL_PLUGINS=https://github.com/orchestracities/grafana-map-plugin/archive/master.zip;grafana-map-plugin,grafana-clock-panel,grafana-worldmap-panel
+    volumes:
+      - grafana:/var/lib/grafana
+
+  entirety:
+    image: n5geh/entirety:latest
+    ports:
+    - "8090:80"
+    environment:
+      - DEVICE_WIZARD_CONFIG=/data/entirety.json
+      - CLIENT_SECRET=/data/client_secrets.json
+    depends_on:
+    - orion
+    - iot-agent
+    - quantumleap
+    volumes:
+    - ./entirety:/data
+
+  keycloak:
+    image: jboss/keycloak:8.0.1
+    hostname: keycloack
+    container_name: keycloack
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    networks:
+      - default
+    environment:
+      - KEYCLOAK_HTTPS_PORT=443
+      - KEYCLOAK_HTTP_PORT=8080
+      - KEYCLOAK_LOGLEVEL=DEBUG
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=Pa55w0rd
+      - DB_VENDOR=postgres
+      - DB_ADDR=postgres
+      - DB_USER=admin
+      - DB_PASSWORD=password
+      - PROXY_ADDRESS_FORWARDING=true
+    command:
+      - "-b 0.0.0.0"
+      - "-Dkeycloak.import=/opt/jboss/keycloak/n5geh-realm.json,/opt/jboss/keycloak/n5geh_devices-realm.json"
+    volumes:
+      - ./keycloak/n5geh-realm.json:/opt/jboss/keycloak/n5geh-realm.json
+      - ./keycloak/n5geh_devices-realm.json:/opt/jboss/keycloak/n5geh_devices-realm.json
+
+  postgres:
+    image: postgres:11.4
+    hostname: postgres
+    container_name: postgres
+    networks:
+      - default
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=keycloak
+    volumes:
+      - postgres:/data
+
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.18.1.0/24
+
+volumes:
+  mongo-db: ~
+  crate-db: ~
+  grafana: ~
+  postgres: ~
+  keycloack: ~

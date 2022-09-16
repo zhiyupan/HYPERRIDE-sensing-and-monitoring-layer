@@ -1,0 +1,42 @@
+{% extends "base/Device.template" %}
+{% block device %}
+"id": "urn:ngsi-ld:Meter:{{id_0_id_string_req}}",
+"type": "Meter",
+"subCategory":{
+  "type": "Property",
+  "value": "GridRelated"
+},
+ "name": {
+ "type": "Property",
+ "value": "{{name_1_Name_string_req}}"
+ },
+ "listening": {
+  "type": "Property",
+  "value": "{{listening_2_Listening_string_req}}"
+ },
+ "hasChannel": {
+  "type": "Relationship",
+  "object": ["{{hasChannel_3_Channel_select_req}}"]
+ },
+ "sampleRate": {
+  "type": "Property",
+  "value": "{{sampleRate_4_SampleRate_string_req}}"
+ },
+ "writable": {
+  "type": "Property",
+  "value": "{{writable_5_Writable_string_req}}"
+ },
+ "sampleInterval": {
+  "type": "Property",
+  "value": "{{sampleInterval_6_SampleInterval_string_req}}"
+ },
+{% if loggingInterval_7_LoggingInterval_string_opt %}
+ "loggingInterval": {
+  "type": "Property",
+  "value": "{{loggingInterval_7_LoggingInterval_string_opt}}"
+ },
+{% endif %}
+{% endblock %}
+
+{% block context %}
+{% endblock %}
