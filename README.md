@@ -1,6 +1,6 @@
-# N5GEH tutorial for ENTIRETY 
+# HYPERRIDE sensing and monitoring layer 
 
-This is a tutorial of how to use ENTIRETY for device provisioning for the N5GEH Cloud Platform. To demonstrate the work of the components everything is configured locally. To start using the tutorial it is necessary to install Pre-requisites.
+This is a tutorial of how to use the HYPERDIDE Platform for device provisioning . To demonstrate the work of the components everything is configured locally. To start using the tutorial it is necessary to install Pre-requisites.
 
 ## Pre-requisites 
 * Docker engine
@@ -444,3 +444,8 @@ To stop the tutorials please run following command:
 ```bash
 ./services stop
 ```
+### Citation
+
+https://github.com/N5GEH/n5geh.tools.entirety
+  
+https://github.com/N5GEH/n5geh.tutorials.entirety_step_by_step
