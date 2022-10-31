@@ -127,7 +127,7 @@ case "${command}" in
 #		loadData
 		displayServices
 		echo -e "Keycloak is available via \033[1;34mhttp://localhost:8080/\033[0m  User: \033[1madmin\033[0m Password: \033[1mPa55w0rd\033[0m"
-		echo -e "Grafana is available via \033[1;34mhttp://localhost:3003/login\033[0m  User: \033[1madmin\033[0m Password: \033[1madmin\033[0m"
+		echo -e "Grafana is available via \033[1;34mhttp://localhost:3000/login\033[0m  User: \033[1madmin\033[0m Password: \033[1madmin\033[0m"
 		echo -e "Device Wizard is available via \033[1;34mhttp://localhost:8090/\033[0m User: \033[1mn5geh\033[0m Password: \033[1mn5geh\033[0m"
 		
 		./lh_change.sh
