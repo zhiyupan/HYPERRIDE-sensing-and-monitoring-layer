@@ -3,8 +3,21 @@
 This is a tutorial of how to use the HYPERDIDE Platform for device provisioning . To demonstrate the work of the components everything is configured locally. To start using the tutorial it is necessary to install Pre-requisites.
 
 ## Pre-requisites 
+
 * Docker engine
 * Docker compose
+
+install jq:
+
+```bash
+sudo apt install jq
+```
+
+allow the scripts to be executed: 
+
+```bash
+chmod +x services *.sh
+```
 
 ## Manual
 
@@ -27,7 +40,7 @@ The picture below shows the set of services for the tutorial.
 Here is the list of the services:
 - [KeyCloak](http://localhost:8080) with login: **admin** and password: **Pa55w0rd**
 - [Entirety](http://localhost:8090) with login: **n5geh** and password: **n5geh**
-- [Grafana](http://localhost:3003) with login: **admin** and password: **admin**
+- [Grafana](http://localhost:3000) with login: **admin** and password: **admin**
 
 ### Initializing the services
 
