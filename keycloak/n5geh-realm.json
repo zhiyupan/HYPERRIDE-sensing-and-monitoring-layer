@@ -369,7 +369,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://137.226.248.224:8090/*"
+        "http://localhost:8090/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
