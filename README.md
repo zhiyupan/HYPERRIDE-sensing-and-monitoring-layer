@@ -462,3 +462,11 @@ To stop the tutorials please run following command:
 https://github.com/N5GEH/n5geh.tools.entirety
   
 https://github.com/N5GEH/n5geh.tutorials.entirety_step_by_step
+
+### Solution for error
+
+If CrateDB exits immediately with a max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144] error
+
+
+Solution: sudo sysctl -w vm.max_map_count=262144
+
