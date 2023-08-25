@@ -1,4 +1,4 @@
-# HYPERRIDE sensing and monitoring layer 
+# Sensing and Monitoring Platform 
 
 This is a tutorial of how to use the HYPERDIDE Platform for device provisioning . To demonstrate the work of the components everything is configured locally. To start using the tutorial it is necessary to install Pre-requisites.
 
