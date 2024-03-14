@@ -1,0 +1,14 @@
+{
+  "data": [
+        {% for service in services["services"] %}
+            {% if loop.index > 1 %}
+            ,
+            {% endif %}
+            [
+                "{{ service["entity_type"] }}",
+                "{{ service["apikey"] }}",
+                "{{ service["resource"] }}"
+            ]
+        {% endfor %}
+]
+}

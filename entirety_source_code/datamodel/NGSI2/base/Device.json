@@ -1,0 +1,110 @@
+{
+  "protocol": "",
+  "timezone": "",
+  "attributes": [
+    {
+      "object_id": "crA",
+      "name": "createdAt",
+      "type": "datetime"
+    },
+    {
+      "object_id": "moA",
+      "name": "modifiedAt",
+      "type": "datetime"
+    },
+    {
+      "object_id": "cat",
+      "name": "category",
+      "type": "String"
+    },
+    {
+      "object_id": "ipA",
+      "name": "ipAddress",
+      "type": "String"
+    },
+    {
+      "object_id": "ipA",
+      "name": "ipAddress",
+      "type": "String"
+    },
+    {
+      "object_id": "coA",
+      "name": "controlAsset",
+      "type": "String"
+    },
+    {
+      "object_id": "enV",
+      "name": "entityVersion",
+      "type": "String"
+    },
+    {
+      "object_id": "seN",
+      "name": "serialNumber",
+      "type": "String"
+    },
+    {
+      "object_id": "suN",
+      "name": "supplierName",
+      "type": "String"
+    },
+    {
+      "object_id": "des",
+      "name": "description",
+      "type": "String"
+    },
+    {
+      "object_id": "sou",
+      "name": "source",
+      "type": "String"
+    },
+    {
+      "object_id": "daP",
+      "name": "dataProvider",
+      "type": "String"
+    }
+  ],
+  "static_attributes": [
+    {
+      "name": "hasState",
+      "type": "Relationship",
+      "label": "State",
+      "query": "State",
+      "required": "true"
+    },
+    {
+      "name": "controlsProperty",
+      "type": "Relationship",
+      "label": "Property",
+      "query": "Property",
+      "required": "true"
+    },
+    {
+      "name": "isMeasuredIn",
+      "type": "Relationship",
+      "label": "Measurement",
+      "query": "Measurement",
+      "required": "true"
+    },
+    {
+      "name": "hasCommand",
+      "type": "Relationship",
+      "label": "Command",
+      "query": "Command",
+      "required": "true"
+    },
+    {
+      "name": "hasFunction",
+      "type": "Relationship",
+      "label": "Function",
+      "query": "Function",
+      "required": "true"
+    },
+    {
+      "name": "conssistOf",
+      "type": "Relationship",
+      "label": "Consist of",
+      "query": "",
+      "required": "false"
+    }
+  ]
+}

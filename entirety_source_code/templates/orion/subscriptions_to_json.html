@@ -1,0 +1,15 @@
+{
+  "data": [
+        {% for subscription in subscriptions %}
+            {% if loop.index > 1 %}
+            ,
+            {% endif %}
+            [
+                "{{ subscription["id"] }}",
+                "{{ subscription["description"] }}",
+                "{{ subscription["status"] }}",
+                "{{ subscription["subject"]["entities"][0]["idPattern"] }}"
+            ]
+        {% endfor %}
+]
+}

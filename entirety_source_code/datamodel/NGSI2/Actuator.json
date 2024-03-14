@@ -1,0 +1,69 @@
+{
+  "base_template": "base/Device.json",
+  "device_id": {
+    "name": "device_id",
+    "label": "Device Id",
+    "required": "true",
+    "prefix": "urn:ngsi-ld:Actuator:"
+  },
+  "entity_name": "",
+  "entity_type": "Actuator",
+  "attributes": [
+    {
+      "object_id": "nam",
+      "name": "readableName",
+      "type": "String"
+    },
+    {
+      "object_id": "lis",
+      "name": "listening",
+      "type": "String"
+    },
+    {
+      "object_id": "sam",
+      "name": "sampleRate",
+      "type": "String"
+    },
+    {
+      "object_id": "wri",
+      "name": "writable",
+      "type": "String"
+    },
+    {
+      "object_id": "saI",
+      "name": "sampleInterval",
+      "type": "String"
+    },
+    {
+      "object_id": "loI",
+      "name": "loggingInterval",
+      "type": "String"
+    }
+  ],
+  "commands": [],
+  "static_attributes": [
+    {
+      "name": "subCategory",
+      "label": "Sub Category",
+      "type": "Property",
+      "value": "BuildingRelated-ControlDevice",
+      "required": "false"
+    },
+    {
+      "name": "hasChannel",
+      "label": "Channel",
+      "type": "Relationship",
+      "value": "",
+      "query": "Channel",
+      "required": "true"
+    },
+    {
+      "name": "isMeasuredIn",
+      "type": "Relationship",
+      "label": "Measure",
+      "value": "",
+      "query": "Measurement",
+      "required": "true"
+    }
+  ]
+}

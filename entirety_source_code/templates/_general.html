@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en-us" class="layout-pf layout-pf-fixed transitions">
+<head>
+    <meta charset="utf-8">
+    <title>ENTIRETY</title>
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+
+    <!-- PatternFly Styles -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/patternfly/dist/css/patternfly.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/datatables.net-dt/css/jquery.dataTables.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/datatables.net-bs/css/dataTables.bootstrap.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/patternfly/dist/css/patternfly-additions.min.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/bootstrap-dialog/dist/css/bootstrap-dialog.css')}}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css')}}">
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='node_modules/datatables.net/js/jquery.dataTables.js')}}"></script>
+    <script src="{{ url_for('static', filename='node_modules/datatables.net-bs/js/dataTables.bootstrap.js')}}"></script>
+    <script src="{{ url_for('static', filename='node_modules/patternfly/dist/js/patternfly.min.js') }}"></script>
+    <script src="
+            {{ url_for('static', filename='node_modules/bootstrap-dialog/dist/js/bootstrap-dialog.js') }}"></script>
+    <script src="{{ url_for('static', filename='node_modules/moment/min/moment.min.js') }}"></script>
+    <script src="
+
+
+            {{ url_for('static', filename='node_modules/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')}}"></script>
+    <script src="
+
+
+
+            {{ url_for('static', filename='node_modules/jquery-match-height/dist/jquery.matchHeight-min.js')}}"></script>
+</head>
+
+<body class="cards-pf">
+{% block navigation %}
+{% endblock %}
+<div class="container-fluid container-cards-pf container-pf-nav-pf-vertical nav-pf-persistent-secondary">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>

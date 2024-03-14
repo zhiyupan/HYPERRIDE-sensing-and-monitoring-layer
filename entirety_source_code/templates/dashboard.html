@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>N5GEH ENTIRETY application</h1>
+    <div class="container-fluid container-cards-pf">
+        <div class="row row-cards-pf">
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>Orion LD
+                    </h2>
+                    <div class="card-pf-body">
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">
+                                {% if d['orion_version']|length %}
+                                    {{ d['orion_version'] }}
+                                    <span class="pficon pficon-ok"></span>
+                                {% else %}
+                                    <span class="pficon pficon-error-circle-o"></span>
+                                {% endif %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>Classes
+                    </h2>
+                    <div class="card-pf-body">
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">Registered classes: {{ d['registered_classes'] }}</span>
+                            <span class="card-pf-aggregate-status-notification"> Total: {{ d['all_classes'] }}</span>
+                        </p>
+                        {% if d['registered_classes'] !=  d['all_classes'] and d['orion_version']|length %}
+                            <button class="btn btn-primary btn-lg" onclick="window.location='/orion/register_classes'">Register classes
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>IoT Agent
+                    </h2>
+                    <div class="card-pf-body">
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">
+                                {% if d['iot_agent_version']|length %}
+                                    {{ d['iot_agent_version'] }}
+                                    <span class="pficon pficon-ok"></span>
+                                {% else %}
+                                    <span class="pficon pficon-error-circle-o"></span>
+                                {% endif %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>Keycloack
+                    </h2>
+                    <div class="card-pf-body">
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">
+                                {% if d['idm_is_active'] %}
+                                    <span class="pficon pficon-ok"></span>
+                                {% else %}
+                                    <span class="pficon pficon-error-circle-o"></span>
+                                {% endif %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>QuantumLeap
+                    </h2>
+                    <div class="card-pf-body">
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">
+                                {% if d['quantumleap_version']|length %}
+                                    {{ d['quantumleap_version'] }}
+                                    <span class="pficon pficon-ok"></span>
+                                {% else %}
+                                    <span class="pficon pficon-error-circle-o"></span>
+                                {% endif %}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                    <h2 class="card-pf-title">
+                        <span class="fa fa-shield"></span>Orion Subscriptions
+                    </h2>
+                    <div class="card-pf-body">
+                        {% if d['subscription_number'] == 0 and d['orion_version']|length %}
+                            <button class="btn btn-primary btn-lg" onclick="window.location='/orion/init_subscriptions'">Init subscriptions for Datamodel
+                            </button>
+                        {% else %}
+                        <p class="card-pf-aggregate-status-notifications">
+                            <span class="card-pf-aggregate-status-notification">Subscriptions: {{ d['subscription_number'] }}</span>
+                        </p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div><!-- /row -->
+    </div><!-- /container -->
+    <script src="/components/jquery-match-height/dist/jquery.matchHeight-min.js"></script>
+    <script>
+        $(function () {
+            // matchHeight the contents of each .card-pf and then the .card-pf itself
+            $(".row-cards-pf > [class*='col'] > .card-pf .card-pf-title").matchHeight();
+            $(".row-cards-pf > [class*='col'] > .card-pf > .card-pf-body").matchHeight();
+            $(".row-cards-pf > [class*='col'] > .card-pf > .card-pf-footer").matchHeight();
+            $(".row-cards-pf > [class*='col'] > .card-pf").matchHeight();
+            // initialize tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+{% endblock %}

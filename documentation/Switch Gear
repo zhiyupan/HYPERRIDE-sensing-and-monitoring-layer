@@ -1,0 +1,27 @@
+
+
+switch gear
+Component type
+- protection component
+
+Connected To
+-Sensor
+
+Connection To
+-Sensor
+
+Funtion type
+-protection
+
+Grid State type
+-voltage
+
+Power Flow type
+-DC
+
+
+Voltage level
+-medium
+
+Unit
+-VoltageUnit

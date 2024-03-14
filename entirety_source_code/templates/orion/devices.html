@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>List of the {{ fiware_service }} devices</h3>
+            {% from "_formhelpers.html" import render_bootstrap_field %}
+            <form method=post class="form-horizontal" id="deviceTypeForm">
+                {{ render_bootstrap_field(form.types, onchange="selectType();") }}
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <table id="orion" class="display">
+                <thead>
+                <tr>
+                    <th>Device id</th>
+                    <th>MQTT User</th>
+                    <th>MQTT Topic</th>
+                    <th>Context</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script type="application/javascript">
+        function selectType() {
+            var type = $("#select_type").val();
+            var datatable = $("#orion").DataTable({
+                "columns": [
+                    {
+                        "data": "device_id", "name": "Device Id",
+                        fnCreatedCell: function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).html("<a href='/edit?id=" + oData.device_id + "&type=" + type + "'>" + oData.device_id + "</a>");
+                        }
+                    },
+                    {"data": "mqtt_user", "name": "MQTT User"},
+                    {"data": "mqtt_topic", "name": "MQTT Topic"},
+                    {"data": "context", "name": "Context"},
+                    {"data": "action", "name": "Action"},
+                ]
+            });
+            datatable.clear();
+            var table = $("#orion tbody");
+            table.empty();
+            table.append("<tr><td colspan=\"3\" class=\"text-denter\">Loading data....</td></tr>")
+            $.ajax({
+                url: "/orion/devices",
+                method: "GET",
+                data: $("#deviceTypeForm").serialize(),
+                success: function (data) {
+                    data = JSON.parse(data);
+                    table.empty();
+                    for (var i = 0; i < data.length; i++) {
+                        data[i]["action"] = "<button class=\"btn btn-default\" type=\"button\" onclick=\"removeDevice('" + data[i]["device_id"] + "');\"><span class=\"pficon pficon-delete\"></span></button>";
+                    }
+                    if (data.length > 0) {
+                        datatable.rows.add(data);
+                    } else {
+                        table.append("<tr><td colspan=\"2\" class=\"text-denter\">No devices for this type</td></tr>")
+                    }
+                    datatable.draw();
+                }
+            });
+        }
+
+        function removeDevice(deviceId) {
+            BootstrapDialog.confirm('Would you like to remove device "' + deviceId + '" ?', function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/orion/delete",
+                        method: "GET",
+                        data: {"device_id": deviceId},
+                        success: function (data) {
+                            selectType();
+                        }
+                    });
+                } else {
+                }
+            });
+        }
+
+        $(function () {
+            $('#orion').DataTable({"pageLength": 10});
+            selectType();
+        })
+    </script>
+{% endblock %}

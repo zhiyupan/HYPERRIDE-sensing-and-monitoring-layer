@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-6">
+            <h3>Select type of the device to register in {{ fiware_service }} </h3>
+            {% from "_formhelpers.html" import render_form %}
+            {{ render_form(form, method='GET') }}
+        </div>
+    </div>
+
+{% endblock %}

@@ -93,7 +93,7 @@ services:
       - mongo-db:/data
 
   crate-db:
-    image: crate:${CRATE_VERSION:-3.1.2}
+    image: crate:latest
     hostname: crate-db
     container_name: db-crate
     ports:
@@ -119,7 +119,7 @@ services:
       - grafana:/var/lib/grafana
 
   entirety:
-    image: n5geh/entirety:latest
+    image: junayed786/entirety-hp
     ports:
     - "8090:80"
     environment:

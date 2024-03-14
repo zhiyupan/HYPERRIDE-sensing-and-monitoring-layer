@@ -1,0 +1,13 @@
+[
+        {% for device in devices %}
+            {% if loop.index > 1 %}
+            ,
+            {% endif %}
+            {
+                "device_id": "{{ device.id }}",
+                "mqtt_user": "{{ device.mqtt_user }}",
+                "mqtt_topic": "{{ device.mqtt_topic }}",
+                "context" : "{{ device["@context"] }}"
+            }
+        {% endfor %}
+]

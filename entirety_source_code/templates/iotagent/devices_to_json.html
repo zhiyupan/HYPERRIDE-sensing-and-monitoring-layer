@@ -1,0 +1,15 @@
+{
+  "data": [
+        {% for device in devices["devices"] %}
+            {% if loop.index > 1 %}
+            ,
+            {% endif %}
+            [
+                "{{ device["entity_name"] }}",
+                "{{ device["entity_type"] }}",
+                "{{ device["mqtt_user"] }}",
+                "{{ device["mqtt_topic"] }}"
+            ]
+        {% endfor %}
+]
+}

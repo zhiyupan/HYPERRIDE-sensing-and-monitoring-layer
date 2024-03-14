@@ -1,0 +1,23 @@
+{% extends "base/Device.template" %}
+{% block device %}
+"id": "urn:ngsi-ld:EnergyMeter:{{id_0_id_string_req}}",
+"type": "EnergyMeter",
+"subCategory":{
+"type": "Property",
+"value": "GridRelated-Meter"
+},
+{% if ReadableName_2_ReadableName_string_opt %}
+"readableName": {
+"type": "Property",
+"value": "{{ReadableName_2_ReadableName_string_opt}}"
+},
+{% endif %}
+{% if LoggingInterval_3_LoggingInterval_string_opt %}
+"loggingInterval": {"type": "Property",
+"value": "{{LoggingInterval_3_LoggingInterval_string_opt}}"
+},
+{% endif %}
+{% endblock %}
+
+{% block context %}
+{% endblock %}

@@ -1,0 +1,62 @@
+{
+  "base_template": "base/controller.json",
+   "device_id": {
+    "name": "device_id",
+    "label": "Device Id",
+    "required": "true",
+    "prefix": "urn:ngsi-ld:PID:"
+  },
+  "entity_name": "",
+  "entity_type": "PID",
+  "attributes": [
+    {
+      "object_id": "kp",
+      "name": "kp",
+      "type": "String"
+    },
+    {
+      "object_id": "ti",
+      "name": "ti",
+      "type": "String"
+    },
+    {
+      "object_id": "td",
+      "name": "td",
+      "type": "String"
+    },
+    {
+      "object_id": "hl",
+      "name": "higherLimit",
+      "type": "String"
+    },
+    {
+      "object_id": "ll",
+      "name": "lowerLimit",
+      "type": "String"
+    },
+    {
+      "object_id": "reA",
+      "name": "reverseAction",
+      "type": "String"
+    }
+
+  ],
+  "commands": [],
+  "static_attributes": [
+    {
+      "name": "subCategory",
+      "label": "Sub Category",
+      "type": "Property",
+      "value": "BuildingRelated-ControlDevice-Controller",
+      "required": "false"
+    },
+    {
+      "name": "isMeasuredIn",
+      "type": "Relationship",
+      "label": "Measure",
+      "value": "",
+      "query": "Measurement",
+      "required": "true"
+    }
+  ]
+}

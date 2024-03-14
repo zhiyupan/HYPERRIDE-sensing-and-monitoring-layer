@@ -1,12 +1,10 @@
-# Sensing and Monitoring Platform 
+# Sensing and Monitoring Platform
 
 This is a tutorial of how to use the HYPERDIDE Platform for device provisioning . To demonstrate the work of the components everything is configured locally. To start using the tutorial it is necessary to install Pre-requisites.
 
 ## Pre-requisites 
-
 * Docker engine
 * Docker compose
-
 install jq:
 
 ```bash
@@ -18,7 +16,6 @@ allow the scripts to be executed:
 ```bash
 chmod +x services *.sh
 ```
-
 ## Manual
 
 ### Start
@@ -35,29 +32,29 @@ The picture below shows the set of services for the tutorial.
 <img src="documentation/images/Entirety-diagram.png " width=300>
 </p>
 
+### Localhost change
+
+```bash
+would you like to change the local host to a different Ip address?
+If "yes" press 'y'
+If "No" press 'n'
+```
+
+If you are not running the project from the local device than type "y" and then type the ip address,
+else please any key and the default "localhost" will remain as it is.  
+
+
+
 ### List of the service
 
 Here is the list of the services:
 - [KeyCloak](http://localhost:8080) with login: **admin** and password: **Pa55w0rd**
 - [Entirety](http://localhost:8090) with login: **n5geh** and password: **n5geh**
-- [Grafana](http://localhost:3000) with login: **admin** and password: **admin**
+- [Grafana](http://localhost:3003) with login: **admin** and password: **admin**
 
 ### Initializing the services
 
 To start using services it is MANDATORY to provide a CLIENT_SECRETS from the Keycloak Identity Manager.
-
-### Local host change
-
-```bash
-would you like to change the local host to a different Ip address? give answer y/n
-```
-
-If you are not running the project from the local device than type "y" and then type the ip address,
-else please any key and the default "localhost" will remain as it is.
-
-If a change is made in the localhost then change in the Devide-Wizard Settings has to be made as well:
-
-<img src="documentation/images/localhost_change.png" width=900>
 
 #### Initializing services
 
@@ -76,28 +73,22 @@ Copy and past it in the bash after this message.
 
 ```bash
 login to the keycloak go to down down menu 'Select reamlm' -> n5geh ->clients -> device-wizard -> Credentials re generate the 'Secret', copy  and then enter the secret key
-
 ```
 
 #### Update client secrets for MQTT Broker
 
-Regenerate the Client Secret for MQTT Broker and rewrite it in the configuration file.
+Regenerate the Client Secret for MQTT Broker.
 
 <img src="documentation/images/Switch_realm.png" width=900>
 <img src="documentation/images/N5GEH_device_realm_clients.png" width=900>
 <img src="documentation/images/N5GEH_device_realm_mqtt_broker_generate_secret.png" width=900>
-<img src="documentation/images/Edit_Mqtt_broker_config.png" width=900>
-<img src="documentation/images/Edit_Mqtt_broker_config_paste_secret.png" width=900>
 
 
-#### Restart services with updated keys
-
-To apply changes it is necessary to restart docker containers with services. 
+Copy and past it in the bash after this message.
 
 ```bash
-./services secrets_update
+Go to the drop down menu 'Select reamlm' -> N5geh_devices ->clients -> mqtt_broker> "re generate the 'Secret', copy and then enter the secret key
 ```
-
 ## Entirety
 
 ### Login page
@@ -107,20 +98,19 @@ Now, the ENTIRETY service should be available via this [Entirety](http://localho
 <img src="documentation/images/Log in to Entirety.png" width=900>
 
 ### Dashboard
-Here is a ENTIRETY Dashboard.
+Here is a ENTIRETY Dashboard with Register Classes
 
-<img src="documentation/images/Entirety_dashboard.png" width=900>
+<img src="documentation/images/Entirety_register_classes.png" width=900>
+Success
+<img src="documentation/images/Entirety_registerd.png" width=900>
 
-### Initialize classes
-<img src="documentation/images/Entirety_dashboard_classes.png" width=900>
 
 ### Initialize subscriptions
 <img src="documentation/images/Entirety_dashboard_classes_subscriptions.png" width=900>
 
-### User preferences
+### Notifications
+<img src="documentation/images/Entirety_notifications.png" width=900>
 
-<img src="documentation/images/Entirety_user_preferences.png" width=900>
-<img src="documentation/images/Entirety_keycloak_user.png" width=900>
 
 ### Add/Remove device
 
@@ -148,26 +138,6 @@ Here is definition of the Meter in the Datamodel:
     {
       "object_id": "lis",
       "name": "listening",
-      "type": "String"
-    },
-    {
-      "object_id": "sam",
-      "name": "sampleRate",
-      "type": "String"
-    },
-    {
-      "object_id": "wri",
-      "name": "writable",
-      "type": "String"
-    },
-    {
-      "object_id": "saI",
-      "name": "sampleInterval",
-      "type": "String"
-    },
-    {
-      "object_id": "loI",
-      "name": "loggingInterval",
       "type": "String"
     }
   ],
@@ -218,101 +188,6 @@ And also definition of Device (base object for all devices).
     {
       "object_id": "cat",
       "name": "category",
-      "type": "String"
-    },
-        {
-      "object_id": "dvP",
-      "name": "voltage_p",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dvM",
-      "name": "voltage_m",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc1P",
-      "name": "current1P",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc1M",
-      "name": "current1m",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc2P",
-      "name": "current2P",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc2M",
-      "name": "current2M",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc3P",
-      "name": "current3p",
-      "type": "Integer"
-    }
-    {
-      "object_id": "dc3M",
-      "name": "current3m",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc4P",
-      "name": "current4p",
-      "type": "Integer"
-    },
-    {
-      "object_id": "dc4M",
-      "name": "current4m",
-      "type": "Integer"
-    },
-    {
-      "object_id": "ipA",
-      "name": "ipAddress",
-      "type": "String"
-    },
-    {
-      "object_id": "ipA",
-      "name": "ipAddress",
-      "type": "String"
-    },
-    {
-      "object_id": "coA",
-      "name": "controlAsset",
-      "type": "String"
-    },
-    {
-      "object_id": "enV",
-      "name": "entityVersion",
-      "type": "String"
-    },
-    {
-      "object_id": "seN",
-      "name": "serialNumber",
-      "type": "String"
-    },
-    {
-      "object_id": "suN",
-      "name": "supplierName",
-      "type": "String"
-    },
-    {
-      "object_id": "des",
-      "name": "description",
-      "type": "String"
-    },
-    {
-      "object_id": "sou",
-      "name": "source",
-      "type": "String"
-    },
-    {
-      "object_id": "daP",
-      "name": "dataProvider",
       "type": "String"
     }
   ],
@@ -369,14 +244,117 @@ Here is an example of registering the device.
 <img src="documentation/images/Entirety_iot_add_form.png" width=900>
 <img src="documentation/images/Entirety_iot_add_success.png" width=900>
 <img src="documentation/images/Entirety_iot_list.png" width=900>
-<img src="documentation/images/Entirety_iot_list_mqtt_topic.png" width=900>
+
 
 
 ### Services
 <img src="documentation/images/Entirety_iot_service_list.png" width=900>
 
-### Notifications
-<img src="documentation/images/Entirety_notifications.png" width=900>
+
+
+
+
+
+## Entirety 2.0
+
+### Show classes
+<img src="documentation/images/Entirety_show_classes.png" width=900>
+
+### Classes shown as a list
+<img src="documentation/images/Entirety_some_classes.png" width=900>
+
+### Add or Edit an IoT Agent
+<img src="documentation/images/Entirety_iot_add_edit.png" width=900>
+
+Process
+<img src="documentation/images/Entirety_iot_add_edit_process.png" width=900>
+Fill in with new IoT Agent Name and then submit
+<img src="documentation/images/Add_iot_agent.png" width=900>
+
+New Iot Agent is Avaiable in the Types dropdown list
+<img src="documentation/images/New_device_list.png" width=900>
+
+### Change IoT Agents and it parameters Based on Ontology
+<img src="documentation/images/Entirety_upload_ontology.png" width=900>
+
+### Upoad success
+<img src="documentation/images/Entirety_upload_success.png" width=900>
+
+### Choose Ontology
+<img src="documentation/images/Entirety_choose_ontology.png" width=900>
+Ontology Looks like this:
+<img src="documentation/images/sample_ontology.png" width=900>
+
+### RDF file shown below
+```rdf
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:ex="http://www.example.org/sample-ontology#">
+
+    <!-- State classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#State"/>
+    <!-- On -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#On">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+    <!-- Off -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Off">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+    <!-- Multiple -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Multiple">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+
+    <!-- Property classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Property"/>
+    <!-- Heat -->    
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Heat">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+    <!-- Position -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Position">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+    <!-- Length -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Length">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+
+    <!-- Device classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Device"/>
+    <!-- Large -->    
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Large">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+    <!-- Small -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Small">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+    <!-- Medium -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Medium">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+
+    <!-- Property definitions -->
+    <owl:ObjectProperty rdf:about="http://www.example.org/sample-ontology#hasColor">
+        <rdfs:domain rdf:resource="http://www.example.org/sample-ontology#State"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://www.example.org/sample-ontology#hasValue">
+        <rdfs:domain rdf:resource="http://www.example.org/sample-ontology#State"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:ObjectProperty>
+</rdf:RDF>
+```
+The IoT agent type list changes based on the ontology
+<img src="documentation/images/New_ontology_device_type.png" width=900>
+
+Device Form changes as well
+<img src="documentation/images/New_device_form.png" width=900>
+
 
 ### Crate DB Database
 New table will be added as shown
@@ -401,7 +379,7 @@ import paho.mqtt.client as mqtt
 import pandas as pd
 import time
 
-df = pd.read_excel('D:\switch_gear\Switchgear1.xls')
+df = pd.read_excel('Switchgear1.xls')
 df["Timestamp"]=pd.to_datetime(df.Timestamp)
 col_name=[]
 
@@ -440,7 +418,15 @@ The data goes to the CrateDB and stores in the table 'mtopeniot.etmeter'.
 <img src="documentation/images/data_table.JPG" 
 width=900>
 
+
 ### Grafana
+The Grafana tab opens a new tab of Grafana login page
+<img src="documentation/images/Grafana_link.png" 
+width=900>
+<img src="documentation/images/Grafana_login.png" 
+width=900>
+
+
 Put the parameters in accordingly in the query table:
 
 <img src="documentation/images/grafana_query.PNG" 
@@ -449,6 +435,7 @@ width=900>
 And the data can be visualised as shown below:
 <img src="documentation/images/grafana_graph.PNG" 
 width=900>
+
 
 ### Stop
 
@@ -469,4 +456,3 @@ If CrateDB exits immediately with a max virtual memory areas vm.max_map_count [6
 
 
 Solution: sudo sysctl -w vm.max_map_count=262144
-

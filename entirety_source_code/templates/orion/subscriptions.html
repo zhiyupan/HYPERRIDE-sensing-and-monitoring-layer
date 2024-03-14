@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-8">
+            <table id="iotagent" class="display">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>description</th>
+                    <th>Status</th>
+                    <th>Pattern</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <script type="application/javascript">
+        $(function () {
+            var table = $('#iotagent').DataTable({
+                "pageLength": 10, "ajax": "/orion/subscriptions_to_json", "columnDefs": [{
+                    "targets": -1,
+                    "defaultContent": "<button class=\"btn btn-default\" type=\"button\" ><span class=\"pficon pficon-delete\"></span></button>"
+                }]
+            });
+
+            $('#iotagent tbody').on('click', 'button', function () {
+                var data = table.row($(this).parents('tr')).data();
+                BootstrapDialog.confirm('Would you like to remove subscription for type "' + data[3] + '" ?', function (result) {
+                    if (result) {
+                        $.ajax({
+                            url: "/orion/delete_subscription",
+                            method: "GET",
+                            data: {"subscription_id": data[0]},
+                            success: function (data) {
+                                table.ajax.reload();
+                            }
+                        });
+                    } else {
+                    }
+                });
+
+            });
+        })
+    </script>
+{% endblock %}
