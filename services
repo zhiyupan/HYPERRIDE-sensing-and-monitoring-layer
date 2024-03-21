@@ -2,9 +2,10 @@
 #
 #  Command Line Interface to start all services associated with the Getting-Started Tutorial
 #
-#  For this tutorial the commands are merely a convenience script to run docker compose
+#  For this tutorial the commands are merely a convenience script to run docker-compose
 #
-
+chmod +x lh_change.sh
+chmod +x secret_change.sh
 set -e
 
 if (( $# != 1 )); then
@@ -25,8 +26,8 @@ loadData () {
 
 stoppingContainers () {
 	echo "Stopping containers"
-	docker compose -p n5geh down 
-	# docker compose -p n5geh down -v --remove-orphans
+	docker-compose -p n5geh down 
+	# docker-compose -p n5geh down -v --remove-orphans
 }
 
 displayServices () {
@@ -71,7 +72,7 @@ addDatabaseIndex () {
 initKeycloak () {
 #	printf "Adding realm to \033[1mKeycloack\033[0m  for \033[1;34mDevice Wizard\033[0m  ..."
     docker run --network n5geh_default -v $(pwd)/keycloak:/data --rm python:3.7.6 /bin/bash -c 'pip install python-keycloak psycopg2 && python /data/keycloak_init.py' && \
-    docker compose -p n5geh restart keycloak
+    docker-compose -p n5geh restart keycloak
 }
 
 waitForOrion () {
@@ -109,6 +110,8 @@ case "${command}" in
         echo "usage: services [create|start|stop|secrets_update]"
         ;;
 	 "start")
+
+                ./lh_change.sh
 		stoppingContainers
 		echo -e "Starting seven containers \033[1;34mOrion\033[0m, \033[1;34mQuantumLeap\033[0m, \033[1;36mIoT-Agent\033[0m, \033[1mTutorial\033[0m, a \033[1mGrafana\033[0m metrics dashboard and \033[1mCrateDB\033[0m and \033[1mMongoDB\033[0m databases."
 		echo -e "- \033[1;34mOrion LD\033[0m is the context broker"
@@ -119,7 +122,7 @@ case "${command}" in
 		echo -e "- \033[1mMQTT Broker\033[0m is the mqtt broker instance"
 		echo -e "- \033[1mKeycloack\033[0m is the local Identity Management service (IDM)"
 		echo ""
-		docker compose -p n5geh up -d --remove-orphans
+		docker-compose -p n5geh up -d --remove-orphans
 		addDatabaseIndex
 		waitForOrion
 		waitForIDM
@@ -127,21 +130,21 @@ case "${command}" in
 #		loadData
 		displayServices
 		echo -e "Keycloak is available via \033[1;34mhttp://localhost:8080/\033[0m  User: \033[1madmin\033[0m Password: \033[1mPa55w0rd\033[0m"
-		echo -e "Grafana is available via \033[1;34mhttp://localhost:3000/login\033[0m  User: \033[1madmin\033[0m Password: \033[1madmin\033[0m"
+		echo -e "Grafana is available via \033[1;34mhttp://localhost:3003/login\033[0m  User: \033[1madmin\033[0m Password: \033[1madmin\033[0m"
 		echo -e "Device Wizard is available via \033[1;34mhttp://localhost:8090/\033[0m User: \033[1mn5geh\033[0m Password: \033[1mn5geh\033[0m"
-		
-		./lh_change.sh
+
+		./secret_change.sh
 		;;
 	"stop")
 		stoppingContainers
 		;;
 	"create")
 		echo "Pulling Docker images"
-		docker compose -p n5geh pull
+		docker-compose -p n5geh pull
 		;;
 	"secrets_update")
 		echo "Pulling Docker images"
-		docker compose -p n5geh restart iot-agent mqtt-broker entirety
+		docker-compose -p n5geh restart iot-agent mqtt-broker entirety
 		;;
 	*)
 		echo "Command not Found."

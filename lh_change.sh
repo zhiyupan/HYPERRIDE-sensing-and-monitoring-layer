@@ -1,8 +1,10 @@
 #! /usr/bin/bash
 
 
-
-echo "would you like to change the local host to a different Ip address? give answer y/n"
+echo " "
+echo "would you like to change the local host to a different Ip address?"
+echo "If yes press 'y'" 
+echo "If No press 'n' "
 read var1
 
 
@@ -18,20 +20,17 @@ then
     jq '.web.issuer="'${issuer}'"' entirety/client_secrets.json > tmp.$$.json && mv tmp.$$.json entirety/client_secrets.json
     jq '.web.auth_uri="'${auth_uri}'"' entirety/client_secrets.json > tmp.$$.json && mv tmp.$$.json entirety/client_secrets.json
     jq '.web.redirect_uris=["'${redirect_uris}'"]' entirety/client_secrets.json > tmp.$$.json && mv tmp.$$.json entirety/client_secrets.json
+    jq '.clients[0].redirectUris=["'${redirect_uris}'"]' keycloak/n5geh-realm.json > tmp.$$.json && mv tmp.$$.json keycloak/n5geh-realm.json
 
     #cat client_secrets.json | jq '.web.auth_uri = $v' --arg v ${auth_uri} | sponge client_secrets.json
     echo " "
     echo your Ip address has changed from localhost to $Ip
-    
+    echo " "
+    echo "The Setup is restarting..."
+    echo "Please wait for the project to restart" 
+else
+    echo "your localhost stays as default or previously change"   
+    echo " "
 fi 
-echo " " 
-echo "you can enter the keycloak now" 
-echo "login to the keycloak go to down down menu 'Select reamlm' -> n5geh ->clients -> device-wizard -> Credentials  "
 
-echo "re generate the 'Secret', copy  and then enter the secret key" 
-read secret 
-
-jq '.web.client_secret="'${secret}'"' entirety/client_secrets.json > tmp.$$.json && mv tmp.$$.json entirety/client_secrets.json
-
-echo " "
 
