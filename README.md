@@ -355,6 +355,9 @@ The IoT agent type list changes based on the ontology
 Device Form changes as well
 <img src="documentation/images/New_device_form.png" width=900>
 
+Finally the "Reset to default button" can be used to go back to default sargon ontology
+<img src="documentation/images/ontology_reset_to_sargon.png" width=900>
+
 
 ### Crate DB Database
 New table will be added as shown

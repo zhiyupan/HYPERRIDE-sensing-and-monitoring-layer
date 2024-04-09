@@ -1,0 +1,41 @@
+{
+  "base_template": "base/Device.json",
+  "device_id": {
+    "name": "device_id",
+    "label": "Device Id",
+    "required": "true",
+    "prefix": "urn:ngsi-ld:Boiler:"
+  },
+  "entity_name": "",
+  "entity_type": "Boiler",
+  "attributes": [
+    {
+      "object_id": "nam",
+      "name": "readableName",
+      "type": "String"
+    },
+    {
+      "object_id": "loI",
+      "name": "loggingInterval",
+      "type": "String"
+    }
+  ],
+  "commands": [],
+  "static_attributes": [
+    {
+      "name": "subCategory",
+      "label": "Sub Category",
+      "type": "Property",
+      "value": "BuildingRelated-FlowDevice-EnergyConversionDevice",
+      "required": "false"
+    },
+    {
+      "name": "isMeasuredIn",
+      "type": "Relationship",
+      "label": "Measure",
+      "value": "",
+      "query": "Measurement",
+      "required": "true"
+    }
+  ]
+}

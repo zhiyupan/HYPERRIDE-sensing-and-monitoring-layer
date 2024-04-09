@@ -1,0 +1,24 @@
+{
+  "protocol": "",
+  "timezone": "",
+  "attributes": [
+    {
+      "object_id": "crA",
+      "name": "createdAt",
+      "type": "datetime"
+    },
+    {
+      "object_id": "moA",
+      "name": "modifiedAt",
+      "type": "datetime"
+    },
+    {
+      "object_id": "cat",
+      "name": "category",
+      "type": "String"
+    }
+  ],
+  "static_attributes": [
+
+  ]
+}

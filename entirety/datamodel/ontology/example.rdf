@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:ex="http://www.example.org/sample-ontology#">
+
+    <!-- State classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#State"/>
+    <!-- On -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#On">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+    <!-- Off -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Off">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+    <!-- Multiple -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Multiple">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#State"/>
+    </owl:Class>
+
+    <!-- Property classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Property"/>
+    <!-- Heat -->    
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Heat">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+    <!-- Position -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Position">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+    <!-- Length -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Length">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Property"/>
+    </owl:Class>
+
+    <!-- Device classes -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Device"/>
+    <!-- Large -->    
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Large">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+    <!-- Small -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Small">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+    <!-- Medium -->
+    <owl:Class rdf:about="http://www.example.org/sample-ontology#Medium">
+        <rdfs:subClassOf rdf:resource="http://www.example.org/sample-ontology#Device"/>
+    </owl:Class>
+
+    <!-- Property definitions -->
+    <owl:ObjectProperty rdf:about="http://www.example.org/sample-ontology#hasColor">
+        <rdfs:domain rdf:resource="http://www.example.org/sample-ontology#State"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:ObjectProperty>
+    <owl:ObjectProperty rdf:about="http://www.example.org/sample-ontology#hasValue">
+        <rdfs:domain rdf:resource="http://www.example.org/sample-ontology#State"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    </owl:ObjectProperty>
+</rdf:RDF>

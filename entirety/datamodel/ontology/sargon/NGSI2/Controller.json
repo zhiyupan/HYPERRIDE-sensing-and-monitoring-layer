@@ -1,0 +1,36 @@
+{
+  "base_template": "base/Device.json",
+   "device_id": {
+    "name": "device_id",
+    "label": "Device Id",
+    "required": "true",
+    "prefix": "urn:ngsi-ld:Controller:"
+  },
+  "entity_name": "",
+  "entity_type": "Controller",
+  "attributes": [
+   {
+      "object_id": "seV",
+      "name": "setValue",
+      "type": "String"
+    }
+
+  ],
+  "commands": [],
+  "static_attributes": [
+     {
+      "name": "connectedSensor",
+      "type": "Relationship",
+      "label": "Connected Sensor",
+      "query": "Sensor",
+      "required": "true"
+    },
+    {
+      "name": "connectedActuator",
+      "type": "Relationship",
+      "label": "Connected Actuator",
+      "query": "Actuator",
+      "required": "true"
+    }
+  ]
+}

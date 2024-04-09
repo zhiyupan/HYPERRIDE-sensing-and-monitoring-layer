@@ -1,0 +1,42 @@
+{
+    "base_template": "base/Device.json",
+    "device_id": {
+        "name": "device_id",
+        "label": "Device Id",
+        "required": "true",
+        "prefix": "urn:ngsi-ld:Large:"
+    },
+    "entity_name": "",
+    "entity_type": "Large",
+    "attributes": [
+        {
+            "object_id": "nam",
+            "name": "readableName",
+            "type": "String"
+        },
+        {
+            "object_id": "lis",
+            "name": "listening",
+            "type": "String"
+        }
+    ],
+    "commands": [],
+    "static_attributes": [
+        {
+            "name": "hasProperty",
+            "label": "Property",
+            "type": "Relationship",
+            "value": "",
+            "query": "Property",
+            "required": "false"
+        },
+        {
+            "name": "hasState",
+            "label": "State",
+            "type": "Relationship",
+            "value": "",
+            "query": "State",
+            "required": "false"
+        }
+    ]
+}
