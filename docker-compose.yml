@@ -119,7 +119,7 @@ services:
       - grafana:/var/lib/grafana
 
   entirety:
-    image: junayed786/entirety-hp
+    image: panzhiyu28/entirety2
     ports:
     - "8090:80"
     environment:
@@ -131,6 +131,8 @@ services:
     - quantumleap
     volumes:
     - ./entirety:/data
+    - ./:/root
+    - /var/run/docker.sock:/var/run/docker.sock
 
   keycloak:
     image: jboss/keycloak:8.0.1
